@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dreon-auth
+  namespace: dreon-dev
+  labels:
+    app: dreon-auth
+spec:
+  selector:
+    app: dreon-auth
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+    - name: grpc
+      port: 9090
+      targetPort: 9090

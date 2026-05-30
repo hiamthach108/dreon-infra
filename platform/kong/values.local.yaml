@@ -1,0 +1,69 @@
+# Kong Gateway — local environment
+# DB-less mode: no external Postgres for Kong itself
+# Kong Ingress Controller reads Ingress objects from dreon-dev
+
+image:
+  repository: kong
+  tag: "3.6"
+
+
+
+env:
+  database: "off"
+  router_flavor: traditional_compatible
+  plugins: bundled
+  log_level: info
+  mem_cache_size: 64m
+
+# Proxy
+proxy:
+  enabled: true
+  type: NodePort
+  http:
+    enabled: true
+    servicePort: 80
+    containerPort: 8000
+    nodePort: 30080
+  tls:
+    enabled: true
+    servicePort: 443
+    containerPort: 8443
+    nodePort: 30443
+
+# Admin API — ClusterIP only (use kubectl port-forward to access)
+admin:
+  enabled: true
+  type: ClusterIP
+  http:
+    enabled: true
+    servicePort: 8001
+    containerPort: 8001
+  tls:
+    enabled: false
+
+# Disable built-in Postgres for Kong (DB-less)
+postgresql:
+  enabled: false
+
+# Resources for Proxy
+resources:
+  requests:
+    cpu: 10m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+# Resources for Ingress Controller
+ingressController:
+  enabled: true
+  installCRDs: false
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+  env:
+    controller_kongadmin_tls_skip_verify: "true"

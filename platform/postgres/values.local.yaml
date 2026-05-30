@@ -1,0 +1,28 @@
+# Bitnami PostgreSQL — local environment
+# Creates a single Postgres instance shared by all services.
+# Databases: dreon_auth, dreon_notification, dreon_api
+# Init scripts run once on first startup.
+
+auth:
+  postgresPassword: "dreon_local_pg_pass"
+  username: postgres
+
+primary:
+  persistence:
+    enabled: true
+    size: 2Gi
+
+  # Mount our init SQL so all 3 databases are created on first boot
+  initdb:
+    scriptsConfigMap: postgres-init-scripts
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+
+readReplicas:
+  replicaCount: 0

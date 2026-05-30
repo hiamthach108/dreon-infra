@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dreon-notification
+  namespace: dreon-dev
+  labels:
+    app: dreon-notification
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dreon-notification
+  template:
+    metadata:
+      labels:
+        app: dreon-notification
+    spec:
+      containers:
+        - name: dreon-notification
+          image: dreon-notification:local
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: grpc
+              containerPort: 9090
+          envFrom:
+            - configMapRef:
+                name: dreon-notification-config
+            - secretRef:
+                name: dreon-notification-secret
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi

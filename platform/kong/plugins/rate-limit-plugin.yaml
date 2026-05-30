@@ -1,0 +1,18 @@
+# Reference KongPlugin for rate limiting
+# To activate: annotate an Ingress with:
+#   konghq.com/plugins: rate-limit-per-ip
+#
+# This is NOT applied automatically.
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: rate-limit-per-ip
+  namespace: dreon-dev
+  annotations:
+    kubernetes.io/ingress.class: kong
+plugin: rate-limiting
+config:
+  minute: 120
+  hour: 3600
+  policy: local
+  limit_by: ip

@@ -1,0 +1,23 @@
+# Secrets — never commit real values
+secrets/dev/*.secret.yaml
+secrets/prod/
+!secrets/**/*.secret.example.yaml
+
+# Generated keys
+*.pem
+*.key
+*.pub
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+
+# Helm
+*.lock
+charts/
+
+keys/

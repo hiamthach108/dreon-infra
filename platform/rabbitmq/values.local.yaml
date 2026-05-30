@@ -1,0 +1,30 @@
+# Bitnami RabbitMQ — local environment
+
+auth:
+  username: dreon
+  password: "dreon_local_rmq_pass"
+  erlangCookie: "dreon_local_erlang_cookie"
+
+image:
+  registry: docker.io
+  repository: bitnami/rabbitmq
+  tag: latest
+
+persistence:
+  enabled: true
+  size: 2Gi
+
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+# Management UI available via kubectl port-forward
+# kubectl port-forward svc/rabbitmq -n dreon-system 15672:15672
+metrics:
+  enabled: false
