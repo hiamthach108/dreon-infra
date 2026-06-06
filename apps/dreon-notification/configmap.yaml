@@ -39,3 +39,6 @@ data:
   EMAIL_SENDER: "noreply@dreon.app"
   EMAIL_TEMPLATE_DIR: "templates/email"
   SMS_TEMPLATE_DIR: "templates/sms"
+
+  # Firebase credentials are mounted from dreon-notification-firebase secret.
+  FIREBASE_CREDENTIALS_PATH: "/etc/dreon-notification/firebase/firebase.json"
